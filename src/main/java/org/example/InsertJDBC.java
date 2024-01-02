@@ -2,7 +2,7 @@ package org.example;
 
 import java.sql.*;
 
-public class FirstJDBC {
+public class InsertJDBC {
     public static void main(String[] args) {
         try{
             // load the driver
@@ -15,11 +15,22 @@ public class FirstJDBC {
 
             Connection con = DriverManager.getConnection(url, username, password);
 
-            if(con.isClosed()){
-                System.out.println("Connection is Closed");
-            }else{
-                System.out.println("Connection Created");
-            }
+            // create query
+            String q = """
+                    create table table1(
+                    tId serial primary key,
+                    tName varchar(200) not null,
+                    tCity varchar(400)
+                    )
+                    """;
+
+            // create statement
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate(q);
+
+            System.out.println("table created  in database");
+
+            con.close();
         }
         catch (Exception e){
             e.printStackTrace();
